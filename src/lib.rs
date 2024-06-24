@@ -523,7 +523,7 @@ impl<I2C: I2c> Lis2dh12<I2C> {
         let (out_h, out_l) = self.get_temp_out()?;
         // 10-bit resolution
         let value = (i16(out_h) << 8) | i16(out_l);
-        Ok(25 + f32(value) * 1)
+        Ok(25.0 + f32(value))
     }
 
     /// `REFERENCE` register
