@@ -1,4 +1,5 @@
 #![allow(non_upper_case_globals)]
+#![allow(missing_docs)]
 
 #[cfg(feature = "out_f32")]
 use cast::f32;
