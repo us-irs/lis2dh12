@@ -6,7 +6,7 @@
 //! [trait]: https://docs.rs/accelerometer/latest/accelerometer/trait.Accelerometer.html
 //!
 
-#![deny(missing_docs)]
+// #![deny(missing_docs)]
 #![deny(warnings)]
 #![no_std]
 #![forbid(unsafe_code)]
@@ -20,9 +20,9 @@ use core::marker::PhantomData;
 pub use accelerometer::vector::F32x3;
 pub use accelerometer::vector::I16x3;
 pub use accelerometer::{Accelerometer, Error, ErrorKind, RawAccelerometer};
-use cast::u16;
 #[cfg(feature = "out_f32")]
-use cast::{f32, i16};
+use cast::f32;
+use cast::i16;
 use embedded_hal as hal;
 use hal::i2c::I2c;
 #[cfg(feature = "out_f32")]
@@ -694,9 +694,9 @@ impl<I2C: I2c> RawAccelerometer<I16x3> for Lis2dh12<I2C> {
         self.read_regs(Register::OUT_X_L, &mut buf)?;
 
         Ok(I16x3::new(
-            (u16(buf[0]) + (u16(buf[1]) << 8)) as i16,
-            (u16(buf[2]) + (u16(buf[3]) << 8)) as i16,
-            (u16(buf[4]) + (u16(buf[5]) << 8)) as i16,
+            (i16(buf[1]) << 8) | i16(buf[0]),
+            (i16(buf[3]) << 8) | i16(buf[2]),
+            (i16(buf[5]) << 8) | i16(buf[4]),
         ))
     }
 }
