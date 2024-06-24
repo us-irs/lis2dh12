@@ -11,7 +11,7 @@
 #![no_std]
 #![forbid(unsafe_code)]
 
-mod reg;
+pub mod reg;
 
 use core::fmt::Debug;
 use core::marker::PhantomData;
@@ -28,8 +28,8 @@ use hal::i2c::I2c;
 #[cfg(feature = "out_f32")]
 use num_traits::FromPrimitive;
 
-use crate::reg::*;
-pub use crate::reg::{Aoi6d, FifoMode, FullScale, Mode, Odr};
+use reg::*;
+pub use reg::{Aoi6d, FifoMode, FullScale, Mode, Odr};
 
 /// Possible slave addresses
 pub enum SlaveAddr {
@@ -42,8 +42,8 @@ pub enum SlaveAddr {
 impl SlaveAddr {
     fn addr(self) -> u8 {
         match self {
-            SlaveAddr::Default => I2C_SAD,
-            SlaveAddr::Alternative(a0) => I2C_SAD | a0 as u8,
+            SlaveAddr::Default => reg::I2C_SAD,
+            SlaveAddr::Alternative(a0) => reg::I2C_SAD | a0 as u8,
         }
     }
 }
